@@ -39,9 +39,21 @@
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <geometry_msgs/msg/transform_stamped.hpp>
+// tf2's LinearMath headers were renamed from .h to .hpp in newer ROS distros
+// (Rolling/Kilted) and the legacy .h shims were later removed. Prefer the .hpp
+// names, falling back to .h so the node still builds on older distros.
+#if __has_include(<tf2/LinearMath/Matrix3x3.hpp>)
+#include <tf2/LinearMath/Matrix3x3.hpp>
+#include <tf2/LinearMath/Quaternion.hpp>
+#else
 #include <tf2/LinearMath/Matrix3x3.h>
 #include <tf2/LinearMath/Quaternion.h>
+#endif
+#if __has_include(<tf2_ros/transform_broadcaster.hpp>)
+#include <tf2_ros/transform_broadcaster.hpp>
+#else
 #include <tf2_ros/transform_broadcaster.h>
+#endif
 
 #include "enpose_api.hpp"
 

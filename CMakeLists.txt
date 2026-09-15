@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.19)
-project(enpose_ros)
+project(enpose_tracking)
 
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
@@ -22,16 +22,19 @@ find_package(tf2_geometry_msgs REQUIRED)
 include(FetchContent)
 FetchContent_Declare(enpose_api
   GIT_REPOSITORY https://github.com/enpose-tech/enpose-api
-  GIT_TAG 0.1.0)
+  GIT_TAG 0.2.0)
 FetchContent_MakeAvailable(enpose_api)
 
 add_executable(enpose_node src/enpose_node.cpp)
-ament_target_dependencies(enpose_node
-  rclcpp
-  geometry_msgs
-  tf2
-  tf2_ros
-  tf2_geometry_msgs)
+# ament_target_dependencies() was removed in recent Rolling; link the modern
+# CMake targets exported by each package directly. Message packages expose their
+# typesupport libraries via the <pkg>_TARGETS variable.
+target_link_libraries(enpose_node PRIVATE
+  rclcpp::rclcpp
+  ${geometry_msgs_TARGETS}
+  tf2::tf2
+  tf2_ros::tf2_ros
+  tf2_geometry_msgs::tf2_geometry_msgs)
 
 # Link the Enpose API. We take the headers and the cargo build dependency from
 # the upstream targets, but link the shared library by name (-L<dir> -lenpose_api)
@@ -48,7 +51,7 @@ target_include_directories(enpose_node PRIVATE
 get_target_property(ENPOSE_SHARED_LIB enpose_api_shared IMPORTED_LOCATION)
 get_filename_component(ENPOSE_LIB_DIR "${ENPOSE_SHARED_LIB}" DIRECTORY)
 target_link_directories(enpose_node PRIVATE "${ENPOSE_LIB_DIR}")
-target_link_libraries(enpose_node "-lenpose_api")
+target_link_libraries(enpose_node PRIVATE "-lenpose_api")
 
 # The Enpose shared library lives in the FetchContent build tree and is not a
 # system library, so install it alongside the node so it ships with the package.
