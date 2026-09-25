@@ -19,6 +19,9 @@ find_package(tf2_geometry_msgs REQUIRED)
 
 # Pull in the Enpose API (built from its Rust source via cargo). The C++
 # wrapper target carries both the headers and the compiled shared library.
+# debhelper (used by the ROS buildfarm) passes FETCHCONTENT_FULLY_DISCONNECTED=ON,
+# which would prevent the download entirely, so force it off.
+set(FETCHCONTENT_FULLY_DISCONNECTED OFF CACHE BOOL "" FORCE)
 include(FetchContent)
 FetchContent_Declare(enpose_api
   GIT_REPOSITORY https://github.com/enpose-tech/enpose-api
