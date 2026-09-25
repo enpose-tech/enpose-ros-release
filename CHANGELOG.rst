@@ -2,6 +2,11 @@
 Changelog for package enpose_tracking
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.2.1 (2026-09-25)
+------------------
+* Minor build fix for build server
+* Contributors: Konstantin Schauwecker
+
 0.2.0 (2026-09-15)
 ------------------
 * Updated enpose API to 0.2.0
