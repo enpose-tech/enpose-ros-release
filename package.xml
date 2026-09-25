@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>enpose_tracking</name>
-  <version>0.2.0</version>
+  <version>0.2.1</version>
   <description>ROS2 node for the Enpose 6-DoF optical marker tracking system.
     Connects to an Enpose sensor, streams marker poses, and publishes them as
     PoseStamped messages and TF transforms.</description>
